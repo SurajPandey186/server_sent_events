@@ -1,9 +1,22 @@
-# Server Sent Events
-Implementation Of server-sent events.
+# Server-Sent Events (SSE) Example
 
-# EventSource is a less powerful way of communicating with the server than WebSocket.
-Why should one ever use it?
+This repository contains an example implementation of Server-Sent Events (SSE). SSE is a standard allowing servers to push real-time updates to the browser over a single HTTP connection.
 
-The main reason: it’s simpler. In many applications, the power of WebSocket is a little bit too much.
+## Introduction
 
-We need to receive a stream of data from server: maybe chat messages or market prices, or whatever. That’s what EventSource is good at. Also, it supports auto-reconnect, something we need to implement manually with WebSocket. Besides, it’s a plain old HTTP, not a new protocol.
+Server-Sent Events (SSE) is a technology that allows a server to send updates to the client as they happen over a single HTTP connection. This is useful for real-time applications like live scores, notifications, or chat applications.
+
+### How SSE Works
+- **Client Request**: The client sends an initial HTTP request to the server to establish a connection.
+- **Server Response**: The server responds with a MIME type of `text/event-stream`.
+- **Event Stream**: The server sends a stream of events to the client, which can be processed as they arrive.
+
+### Advantages of SSE
+- **Simple Protocol**: SSE uses a simple HTTP protocol, making it easy to implement.
+- **Automatic Reconnection**: The browser automatically reconnects to the server if the connection is lost.
+- **Event ID**: Events can have unique IDs, allowing clients to remember the last event they received and avoid missing any updates.
+
+### Limitations
+- **Browser Support**: Not all browsers support SSE (e.g., Internet Explorer).
+- **Single-Directional**: SSE is one-way; data can only be sent from the server to the client.
+
