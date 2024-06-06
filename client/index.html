@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server-Sent Events</title>
+
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f4f4f9;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            margin: 20px;
+            padding: 20px;
+            max-width: 70vw;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-title {
+            color: #333;
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #666;
+            margin: 10px 0;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .messageBox {
+            padding: 1rem;
+            border-radius: 5px;
+            border: 1px solid darkgoldenrod;
+        }
+
+        .highlight {
+            color: #007BFF;
+            font-weight: bold;
+        }
+
+        .buttonStyles {
+            border: 0px;
+            color: white;
+            padding: 0.5rem;
+            cursor: pointer;
+            border-radius: 5px;
+            background-color: blueviolet;
+        }
+
+        #messages_container {
+            gap: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .button-container {
+            gap: 1rem;
+            display: flex;
+            margin-top: 1rem;
+            overflow: hidden;
+            position: relative;
+            justify-content: flex-end;
+        }
+
+        .ripple-button {
+            border: none;
+            color: #fff;
+            outline: none;
+            font-size: 16px;
+            cursor: pointer;
+            overflow: hidden;
+            border-radius: 5px;
+            position: relative;
+            padding: 10px 20px;
+            background-color: #007BFF;
+        }
+
+        .ripple-button::after {
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            content: '';
+            height: 100%;
+            position: absolute;
+            border-radius: 50%;
+            transform: scale(0);
+            pointer-events: none;
+            transform-origin: center;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .ripple-button:active::after {
+            transform: scale(4);
+            transition: transform 0.6s ease-out;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="main-title">Understanding Server-Sent Events</div>
+        <section>
+            <p>
+                The <span class="highlight">Server-Sent Events specification</span> describes a built-in class
+                EventSource, that keeps connection with
+                the server and allows to receive events from it.
+            </p>
+            <p>
+                Similar to WebSocket, the connection is persistent.
+            </p>
+            <p>
+                But there are several important differences:
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th><code>WebSocket</code></th>
+                        <th><code>EventSource</code></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Bi-directional: both client and server can exchange messages</td>
+                        <td>One-directional: only server sends data</td>
+                    </tr>
+                    <tr>
+                        <td>Binary and text data</td>
+                        <td>Only text</td>
+                    </tr>
+                    <tr>
+                        <td>WebSocket protocol</td>
+                        <td>Regular HTTP</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><span class="highlight">EventSource</span> is a less powerful way of communicating with the server than
+                WebSocket. Why should one ever use it?</p>
+            <p>The main reason: it’s simpler. In many applications, the power of WebSocket is a little bit too much.</p>
+            <p>
+                We need to receive a stream of data from the server: maybe chat messages or market prices, or whatever.
+                That’s what <span class="highlight">EventSource</span> is good at. Also, it supports auto-reconnect,
+                something we need to implement manually with WebSocket. Besides, it’s a plain old HTTP, not a new
+                protocol.
+            </p>
+            
+            <div id="messages_container">
+
+            </div>
+            
+            <div class="button-container">
+                <button class="ripple-button" onclick="cancelSubscription()">
+                    CANCEL
+                </button>
+                <button class="ripple-button" onclick="subscribeNewData()">
+                    SUBSCRIBE
+                </button>
+                <button class="ripple-button" onclick="fireDynamicMessage()">
+                    FIRE DYNAMIC MESSAGE
+                </button>
+            </div>
+        </section>
+    </div>
+</body>
+<script src="./index.js"></script>
+
+</html>

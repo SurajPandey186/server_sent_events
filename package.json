@@ -1,0 +1,18 @@
+{
+  "keywords": [],
+  "license": "ISC",
+  "dependencies": {
+    "uuid": "^9.0.1",
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  },
+  "version": "1.0.0",
+  "main": "server.js",
+  "name": "server_sent_events",
+  "author": "SURAJ BHUSHAN PANDEY",
+  "scripts": {
+    "start": "node server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "description": "Implementation Of server-sent events."
+}
